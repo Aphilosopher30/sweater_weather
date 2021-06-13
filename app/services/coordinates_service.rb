@@ -19,7 +19,7 @@ class CoordinatesService
       faraday.params[:location] = city_state
     end
 
-    response
+    parse_json(response)
 # binding.pry
 
     # future_refactor = parse_json(response)
