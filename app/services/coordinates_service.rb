@@ -14,18 +14,11 @@ class CoordinatesService
 
 
   def self.geo_coordinates(city_state)
-    # paramiters = {location: city_state}
     response = connection.get('/geocoding/v1/address') do |faraday|
       faraday.params[:location] = city_state
     end
 
     parse_json(response)
-# binding.pry
-
-    # future_refactor = parse_json(response)
-    #
-    # x = future_facade(future_refactor)
-
   end
 
 
