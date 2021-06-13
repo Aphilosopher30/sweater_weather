@@ -1,4 +1,4 @@
-class ForcastController < ApplicationController
+class Api::V1::ForcastController < ApplicationController
   def show
 
     # binding.pry
