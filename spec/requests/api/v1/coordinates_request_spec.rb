@@ -54,6 +54,7 @@ RSpec.describe 'coordinates request api tests', type: :request do
         expect(hour.size).to eq(4)
         expect(hour).to have_key(:time)
         expect(hour).to have_key(:temperature)
+        expect(hour[:temperature]).to be_a(Float)
         expect(hour).to have_key(:conditions)
         expect(hour).to have_key(:icon)
       end

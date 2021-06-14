@@ -9,9 +9,9 @@ class WeatherFacade
   end
 
   def self.select_data(data)
-    current_weather = {datetime: data[:current][:dt],
-            sunrise: data[:current][:sunrise],
-            sunset: data[:current][:sunset],
+    current_weather = {datetime: Time.at(data[:current][:dt]),
+            sunrise: Time.at(data[:current][:sunrise]),
+            sunset: Time.at(data[:current][:sunset]),
             temperature: data[:current][:temp],
             feels_like: data[:current][:feels_like],
             humidity: data[:current][:humidity],
@@ -20,11 +20,12 @@ class WeatherFacade
             conditions: data[:current][:weather][0][:description],
             icon: data[:current][:weather][0][:icon]}
 
+
     number_of_days = 5
     daily_weather = data[:daily].first(number_of_days).map do |day|
-      {date: day[:dt],
-      sunrise: day[:sunrise],
-      sunset: day[:sunset],
+      {date: Time.at(day[:dt]),
+      sunrise: Time.at(day[:sunrise]),
+      sunset: Time.at(day[:sunset]),
       max_temp: day[:temp][:max],
       min_temp: day[:temp][:min],
       conditions: day[:weather][0][:description],
@@ -33,7 +34,7 @@ class WeatherFacade
 
     number_of_hours = 8
     hourly_weather = data[:hourly].first(number_of_hours).map do |hour|
-      {time: hour[:dt],
+      {time: Time.at(hour[:dt]),
       temperature: hour[:temp],
       conditions: hour[:weather][0][:description],
       icon: hour[:weather][0][:icon]}
