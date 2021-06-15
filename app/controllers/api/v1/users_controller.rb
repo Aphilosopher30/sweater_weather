@@ -8,7 +8,6 @@ class Api::V1::UsersController < ApplicationController
       api_key = SecureRandom.hex
     end
 
-
     if params[:password].nil? || params[:password_confirmation].nil? || params[:email].nil?
       render json: {description: "you need to fill out all features"}, :status => 400
 
@@ -19,7 +18,7 @@ class Api::V1::UsersController < ApplicationController
       render json: {description: "passwords do not match"}, :status => 400
 
     else
-      new_user = User.create(email: params[:email], api_key: api_key)
+      new_user = User.create(email: params[:email], password: params[:password], api_key: api_key)
       render json: UserSerializer.new(new_user)
     end
   end
