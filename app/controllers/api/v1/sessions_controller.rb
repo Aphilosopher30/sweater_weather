@@ -1,8 +1,10 @@
 class Api::V1::SessionsController < ApplicationController
 
   def login
+    if params[:email] != nil
+      user = User.find_by(email: params[:email].downcase)
+    end
 
-    user = User.find_by(email: params[:email])
     if params[:password] == nil || params[:email] == nil
       render json: {error: "plese send both an email and a password"}, :status => 400
     elsif user == nil
@@ -13,5 +15,4 @@ class Api::V1::SessionsController < ApplicationController
       render json: UserSerializer.new(user)
     end
   end
-
 end
