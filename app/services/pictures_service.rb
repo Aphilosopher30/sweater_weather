@@ -2,7 +2,7 @@ class PicturesService
 
   def self.connection
     Faraday.new(url: 'https://api.unsplash.com/') do |faraday|
-      faraday.params['key'] = ENV['photo_key']
+      faraday.params['client_id'] = ENV['photo_key']
     end
   end
 

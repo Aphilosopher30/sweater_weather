@@ -3,6 +3,7 @@ class PicturesFacade
   def self.city_picture(city_state)
 
     pictures = PicturesService.city_picture(city_state)
+    # binding.pry
     all_info = pictures[:results].first
     data = {
         location: city_state,
