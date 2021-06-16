@@ -15,7 +15,6 @@ class WeatherService
       faraday.params[:lat] = coordinates[:lat]
       faraday.params[:lon] = coordinates[:lng]
       faraday.params[:exclude] = 'minutely,alerts'
-
     end
 
     parse_json(response)

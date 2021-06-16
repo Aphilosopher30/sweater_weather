@@ -51,7 +51,7 @@ RSpec.describe 'users request api tests', type: :request do
       end
 
       it 'email already in use' do
-        pre_existing_user = User.create(email: "test@ts.com", api_key: "testit")
+        pre_existing_user = User.create(email: "test@ts.com", password: 'password', password_confirmation: 'password', api_key: "testit")
 
         post '/api/v1/users', params: {"email": "test@ts.com", "password": "password", "password_confirmation": "password"}
         error = JSON.parse(response.body, symbolize_names: true)

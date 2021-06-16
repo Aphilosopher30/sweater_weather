@@ -6,7 +6,7 @@ RSpec.describe 'sesssions request api tests', type: :request do
 
     it "gives a proper response " do
 
-      test_user = User.create(email: 'test@test.com', password: 'password', api_key: 'asdf')
+      test_user = User.create(email: 'test@test.com', password: 'password', password_confirmation: 'password', api_key: 'asdf')
 
       post '/api/v1/sessions', params: {"email": "test@test.com", "password": "password"}
 
@@ -31,7 +31,7 @@ RSpec.describe 'sesssions request api tests', type: :request do
     describe "sad paths" do
       it 'wrong password' do
 
-        test_user = User.create(email: 'test@test.com', password: 'password', api_key: 'asdf')
+        test_user = User.create(email: 'test@test.com', password: 'password', password_confirmation: 'password', api_key: 'asdf')
 
         post '/api/v1/sessions', params: {"email": "test@test.com", "password": "wrong"}
         error = JSON.parse(response.body, symbolize_names: true)
@@ -42,7 +42,7 @@ RSpec.describe 'sesssions request api tests', type: :request do
 
       it 'wrong email' do
 
-        test_user = User.create(email: 'test@test.com', password: 'password', api_key: 'asdf')
+        test_user = User.create(email: 'test@test.com', password: 'password', password_confirmation: 'password', api_key: 'asdf')
 
         post '/api/v1/sessions', params: {"email": "wrong", "password": "password"}
         error = JSON.parse(response.body, symbolize_names: true)
@@ -53,7 +53,7 @@ RSpec.describe 'sesssions request api tests', type: :request do
 
       it 'empty field ' do
 
-        test_user = User.create(email: 'test@test.com', password: 'password', api_key: 'asdf')
+        test_user = User.create(email: 'test@test.com', password: 'password', password_confirmation: 'password', api_key: 'asdf')
 
         post '/api/v1/sessions', params: {"password": "password"}
         error = JSON.parse(response.body, symbolize_names: true)
