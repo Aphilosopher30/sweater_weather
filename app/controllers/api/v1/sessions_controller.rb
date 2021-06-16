@@ -7,13 +7,19 @@ class Api::V1::SessionsController < ApplicationController
 # binding.pry
 
     if params[:password] == nil || params[:email] == nil
-      render json: {error: "plese send both an email and a password"}, :status => 400
+      message =  "plese send both an email and a password"
+      return_error(message)
+
     elsif user == nil
-      render json: {error: "your password or email is incorrect"}, :status => 400
+      message = "your password or email is incorrect"
+      return_error(message)
+
     elsif user.authenticate(params[:password])
       render json: UserSerializer.new(user)
     else
-      render json: {error: "your password or email is incorrect"}, :status => 400
+      message = "your password or email is incorrect"
+      return_error(message)
+
     end
   end
 end

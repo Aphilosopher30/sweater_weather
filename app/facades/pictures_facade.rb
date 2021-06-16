@@ -15,7 +15,4 @@ class PicturesFacade
     object = Picture.new(data)
   end
 
-
-
-
 end
