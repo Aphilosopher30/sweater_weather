@@ -2,12 +2,12 @@ require 'rails_helper'
 
 RSpec.describe PicturesService do
 
-  describe "returns ictws" do
-    it "returns the desired picts" do
+  describe "returns picture " do
+    it "returns the desired pict" do
 
       json_response = File.read('spec/fixtures/pictures.json')
 
-      stub_request(:get, "https://api.unsplash.com/search/photos?key=#{ENV['photo_key']}&query=Denver,CO").
+      stub_request(:get, "https://api.unsplash.com/search/photos?client_id=#{ENV['photo_key']}&query=Denver,CO").
         with(
           headers: {
          'Accept'=>'*/*',

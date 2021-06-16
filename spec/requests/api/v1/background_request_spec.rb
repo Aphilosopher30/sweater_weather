@@ -7,7 +7,7 @@ RSpec.describe 'coordinates request api tests', type: :request do
 
       json_response = File.read('spec/fixtures/pictures.json')
 
-      stub_request(:get, "https://api.unsplash.com/search/photos?key=#{ENV['photo_key']}&query=denver,co").
+      stub_request(:get, "https://api.unsplash.com/search/photos?client_id=#{ENV['photo_key']}&query=denver,co").
         with(
           headers: {
          'Accept'=>'*/*',
