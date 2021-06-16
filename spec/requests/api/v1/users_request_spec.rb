@@ -5,7 +5,7 @@ RSpec.describe 'users request api tests', type: :request do
   describe "create a new user" do
     it "it  adds a new user to the data base  " do
 
-      test_user = User.find_by(email: "test@ts.com")
+      test_user = User.find_by(email: "test@test.com")
 
       expect(test_user).to eq(nil)
 
@@ -13,7 +13,8 @@ RSpec.describe 'users request api tests', type: :request do
 
       user = JSON.parse(response.body, symbolize_names: true)
 
-      test_user_new = User.find_by(email: user[:data][:attributes][:email])
+      # test_user_new = User.find_by(email: user[:data][:attributes][:email])
+      test_user_new = User.find_by(email: "test@test.com")
 
       expect(test_user_new.class).to eq(User)
     end
