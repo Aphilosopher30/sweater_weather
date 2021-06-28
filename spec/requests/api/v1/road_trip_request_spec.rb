@@ -4,58 +4,90 @@ RSpec.describe 'road_trip request api tests', type: :request do
 
   describe "road_trip makes a new " do
 
-    it "gives a proper response " do
+    describe "gives a proper response " do
       it "it  adds a new road_trip to the data base  " do
 
-        road_trip = RoadTrip.find_by()
+        # user = User.create(email: 'test@test.com', password: 'password', password_confirmation: 'password', api_key: 'asdf')
 
-        expect(road_trip).to eq(nil)
+        # road_trip = RoadTrip.find_by()
 
-        post '/api/v1/users', params: {}
+        # expect(road_trip).to eq(nil)
 
-        user = JSON.parse(response.body, symbolize_names: true)
+        # post '/api/v1/road_trip', params: {"origin": "Denver,CO", "destination": "Pueblo,CO", "api_key": "#{user.api_key}"}
 
-        test_user_new = User.find_by()
+        # user = JSON.parse(response.body, symbolize_names: true)
 
-        expect(test_user_new.class).to eq(RoadTrip)
+        # new_road_trip = Trip.find_by()
+
+        # expect(test_user_new.class).to eq(RoadTrip)
       end
 
       it "gives a proper response " do
 
-        post '/api/v1/road_trip', params: {}
+        directions = File.read('spec/fixtures/road_trip/Valid_rout.json')
+
+        stub_request(:get, "http://www.mapquestapi.com/directions/v2/route?from=Denver,CO&key=zGzfu4UzI8vL45i0cpfsLigueRzfEBW0&to=Pueblo,CO").
+          with(
+            headers: {
+        	  'Accept'=>'*/*',
+        	  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+        	  'User-Agent'=>'Faraday v1.4.2'
+            }).
+          to_return(status: 200, body: directions, headers: {})
+
+        pueblo_coordinates = File.read('spec/fixtures/coordinates/pueblo.json')
+
+        stub_request(:get, "http://www.mapquestapi.com/geocoding/v1/address?key=zGzfu4UzI8vL45i0cpfsLigueRzfEBW0&location=Pueblo,CO").
+          with(
+            headers: {
+           'Accept'=>'*/*',
+           'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+           'User-Agent'=>'Faraday v1.4.2'
+            }).
+          to_return(status: 200, body: pueblo_coordinates, headers: {})
+
+
+        pueblo_weather = File.read('spec/fixtures/weather/pueblo_weather.json')
+
+        stub_request(:get, "https://api.openweathermap.org/data/2.5/onecall?appid=3a8fc712d768c4590d989924f75271e0&exclude=minutely,alerts&lat=38.265425&lon=-104.610415").
+          with(
+            headers: {
+        	  'Accept'=>'*/*',
+        	  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+        	  'User-Agent'=>'Faraday v1.4.2'
+            }).
+          to_return(status: 200, body: pueblo_weather, headers: {})
+
+        user = User.create(email: 'test@test.com', password: 'password', password_confirmation: 'password', api_key: 'asdf')
+
+        post '/api/v1/road_trip', params: {"origin": "Denver,CO", "destination": "Pueblo,CO", "api_key": "#{user.api_key}"}
 
         expect(response).to be_successful
         expect(response.status).to eq(200)
         expect(response.content_type).to eq("application/json")
 
         road_trip = JSON.parse(response.body, symbolize_names: true)
-        # binding.pry
-        expect(user[:data][:id]).to eq(nil)
-        expect(user[:data][:type]).to eq("roadtrip")
 
-        expect(user[:data][:attributes]).to be_a(Hash)
-        expect(user[:data][:attributes].size).to eq(4)
-        expect(user[:data][:attributes]).to have_key(:start_city)
-        expect(user[:data][:attributes][:start_city]).to be_a(String)
-        expect(user[:data][:attributes]).to have_key(:end_city)
-        expect(user[:data][:attributes][:end_city]).to be_a(String)
-        expect(user[:data][:attributes]).to have_key(:travel_time)
-        expect(user[:data][:attributes][:travel_time]).to be_a(String)
-        expect(user[:data][:attributes]).to have_key(:weather_at_eta)
-        expect(user[:data][:attributes][:weather_at_eta]).to be_a(Hash)
-        expect(user[:data][:attributes][:weather_at_eta]).to have_key(:conditions)
-        expect(user[:data][:attributes][:weather_at_eta]).to have_key(:temperature)
+        expect(road_trip[:data][:id]).to eq(nil)
+        expect(road_trip[:data][:type]).to eq("roadtrip")
 
+        expect(road_trip[:data][:attributes]).to be_a(Hash)
+        expect(road_trip[:data][:attributes].size).to eq(4)
+        expect(road_trip[:data][:attributes]).to have_key(:start_city)
+        expect(road_trip[:data][:attributes][:start_city]).to be_a(String)
+        expect(road_trip[:data][:attributes]).to have_key(:end_city)
+        expect(road_trip[:data][:attributes][:end_city]).to be_a(String)
+        expect(road_trip[:data][:attributes]).to have_key(:travel_time)
+        expect(road_trip[:data][:attributes][:travel_time]).to be_a(String)
+        expect(road_trip[:data][:attributes]).to have_key(:weather_at_eta)
+        expect(road_trip[:data][:attributes][:weather_at_eta]).to be_a(Hash)
+        expect(road_trip[:data][:attributes][:weather_at_eta]).to have_key(:weather)
+        expect(road_trip[:data][:attributes][:weather_at_eta]).to have_key(:termperature)
       end
-
-    describe "sad paths" do
-
-
-      
-
     end
 
+    describe "sad paths" do
+    end
 
   end
-
 end

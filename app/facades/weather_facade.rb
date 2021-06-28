@@ -43,5 +43,10 @@ class WeatherFacade
     {hourly_weather: hourly_weather, daily_weather: daily_weather, current_weather: current_weather}
   end
 
+  def self.weather_at_arrival(destination)
+    weather_info = WeatherService.get_weather(destination[:coordinates])
+    arival_time = weather_info[:hourly][destination[:time][:hours]]
+    {termperature: arival_time[:temp], weather: arival_time[:weather][0][:description]}
+  end
 
 end
