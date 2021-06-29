@@ -8,10 +8,9 @@ class CoordinateFacade
 
   def self.rout_time_hours(start, destination)
     response = CoordinatesService.directions(start, destination)
-    # if x
-    #   # return {}
-    #
-    # end
+    if response[:info][:messages][0] != nil || response[:info][:messages][0] == 'We are unable to route with the given locations.'
+      return {hours: "impossible", formated_time: "impossible"}
+    end
     seconds = response[:route][:realTime]
     hours = (seconds/(60.0)**2).round
     formated_time = response[:route][:formattedTime]
