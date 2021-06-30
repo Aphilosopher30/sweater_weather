@@ -15,9 +15,14 @@ class Api::V1::RoadTripController < ApplicationController
       time: trip_time[:time][:formated_time],
       weather_at_eta: weather_at_eta
       }
-      trip = RoadTrip.new(test)
+      new_trip = RoadTrip.create(start_city: origin, end_city: destination)
 
-      render json: RoadTripSerializer.new(trip)
+      trip_poro = RoadTripPoro.new(test)
+
+      # binding.pry
+
+
+      render json: RoadTripSerializer.new(trip_poro)
     end
   end
 end
