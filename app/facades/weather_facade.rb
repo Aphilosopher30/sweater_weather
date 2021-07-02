@@ -45,9 +45,14 @@ class WeatherFacade
 
   def self.weather_at_arrival(destination)
     weather_info = WeatherService.get_weather(destination[:coordinates])
+# binding.pry
     if destination[:time][:hours] == "impossible"
       arival_time = destination[:hours]
       {}
+    elsif destination[:time][:hours] > 48
+      # binding.pry
+      arival_time = weather_info[:daily][(destination[:time][:hours]/24).round]
+      {termperature: arival_time[:temp], weather: arival_time[:weather][0][:description]}
     else
       arival_time = weather_info[:hourly][destination[:time][:hours]]
       {termperature: arival_time[:temp], weather: arival_time[:weather][0][:description]}

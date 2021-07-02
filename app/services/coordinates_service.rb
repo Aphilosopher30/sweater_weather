@@ -27,7 +27,7 @@ class CoordinatesService
       faraday.params[:from] = start
       faraday.params[:to] = destination
     end
-
+# binding.pry
     parse_json(response)
   end
 

@@ -12,7 +12,11 @@ class CoordinateFacade
       return {hours: "impossible", formated_time: "impossible"}
     end
     seconds = response[:route][:realTime]
-    hours = (seconds/(60.0)**2).round
+    if seconds == 10000000
+      hours = response[:route][:formattedTime].split(":").first.to_i
+    else
+      hours = (seconds/(60.0)**2).round
+    end
     formated_time = response[:route][:formattedTime]
     {hours: hours, formated_time: formated_time}
   end
