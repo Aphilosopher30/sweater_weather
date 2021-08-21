@@ -4,7 +4,6 @@ class Api::V1::SessionsController < ApplicationController
     if params[:email] != nil
       user = User.find_by(email: params[:email].downcase)
     end
-# binding.pry
 
     if params[:password] == nil || params[:email] == nil
       message =  "plese send both an email and a password"
@@ -19,7 +18,6 @@ class Api::V1::SessionsController < ApplicationController
     else
       message = "your password or email is incorrect"
       return_error(message)
-
     end
   end
 end

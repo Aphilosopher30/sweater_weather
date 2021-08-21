@@ -10,9 +10,6 @@ class CoordinatesService
     JSON.parse(resp.body, symbolize_names: true)
   end
 
-
-
-
   def self.geo_coordinates(city_state)
     response = connection.get('/geocoding/v1/address') do |faraday|
       faraday.params[:location] = city_state
@@ -21,13 +18,11 @@ class CoordinatesService
     parse_json(response)
   end
 
-
   def self.directions(start, destination)
     response = connection.get('/directions/v2/route') do |faraday|
       faraday.params[:from] = start
       faraday.params[:to] = destination
     end
-# binding.pry
     parse_json(response)
   end
 

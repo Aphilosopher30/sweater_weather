@@ -9,7 +9,7 @@ class PicturesFacade
         location: city_state,
         image_url: all_info[:urls][:raw],
         credits: {
-          source: "from unsplash.com",
+          source: "From unsplash.com",
           photographer: all_info[:user][:name]
         }
       }
