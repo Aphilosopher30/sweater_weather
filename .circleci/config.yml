@@ -9,6 +9,8 @@ jobs:
     executor: ruby/default
     steps:
       - checkout
+      - sudo gem update --system
+
       - run:
           name: Which bundler?
           command: bundle -v
